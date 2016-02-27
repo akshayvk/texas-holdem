@@ -9,8 +9,9 @@ using namespace std;
 const int DECK_SIZE = 52;
 
 class Deck {
-  vector<Card> pack;
   int next; 
+  vector<Card> pack;
+  
 public:
 	Deck();
 	void shuffle();

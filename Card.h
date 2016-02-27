@@ -21,7 +21,7 @@ class Card {
   Suit suit;
 
 public:
-	Card(Rank r, Suit s);
+	Card(Rank r, Suit s) : rank(r), suit(s) {}
 	void printCard();
 	Rank getRank();
 
