@@ -9,6 +9,7 @@ Rank Card::getRank() {
 	return rank;
 }
 
-bool compareCards(Card* a, Card* b) {
-	return (a->getRank() > b->getRank());
+Suit Card::getSuit() {
+	return suit;
 }
+

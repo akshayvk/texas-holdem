@@ -1,27 +1,29 @@
-#include "User.h"
+#include "SmartPlayer.h"
 
-User::User(string s) {
+SmartPlayer::SmartPlayer(string s) {
 	name = s;
 	total = 1000;
 	activeBet = 0;
 	active = true;
+	confidenceScore = 0;
 	typeSuit.reserve(4);
 	typeRank.reserve(13);
 }
 
-void User::addCard(Card* a) {
+void SmartPlayer::addCard(Card* a) {
 	hand.push_back(a);
 	typeSuit[(int)a->getSuit()]++;
 	typeRank[(int)a->getRank()]++;
 }
 
-void User::emptyHand() {
+void SmartPlayer::emptyHand() {
 	hand.clear();
 	activeBet = 0;
 	active = false;
+	confidenceScore = 0;
 }
 
-Hands User::getBestHand() {
+Hands SmartPlayer::getBestHand() {
 	Hands best = HIGH;
 	sort(hand.begin(), hand.end(), Compare());
 	for(unsigned int i = 0; i < typeRank.size(); ++i) {
@@ -84,35 +86,54 @@ Hands User::getBestHand() {
 	return best;
 }
 
-void User::call(int highest, int& center) {
-	int diff = highest - activeBet;
-	total -= diff;
-	activeBet = highest;
-	center += diff;
+int SmartPlayer::getActiveBet() {
+	return activeBet;
 }
 
-void User::raise(int bet, int& center) {
-	total -= bet;
-	activeBet += bet;
-	center += bet;
+void SmartPlayer::strategyValid(int& curr, int& center, int mode) {
+	int confidenceScore = (int)(getBestHand());
+	if(mode == CALLMODE) {
+		if(activeBet + (confidenceScore * 100) > curr) {
+			int diff = curr - activeBet;
+			total -= diff;
+			activeBet = curr;
+			center += diff;
+		}
+		else {
+			cout << "Opponent folds" << endl;
+			emptyHand();
+		}
+	}
+	else {
+		if(confidenceScore > 1 && total > activeBet) {
+			activeBet += (total * .05 * confidenceScore);
+			center += (total * .05 * confidenceScore);
+			total -= (total * .05 * confidenceScore);
+		}
+	}
 }
 
-void User::winsMoney(int winnings) {
+void SmartPlayer::call(int highest, int& center) {
+	strategyValid(highest, center, CALLMODE);
+}
+
+void SmartPlayer::raise(int bet, int& center) {
+	strategyValid(bet, center, RAISEMODE);
+}
+
+void SmartPlayer::winsMoney(int winnings) {
 	total += winnings;
 }
 
-void User::printHand(int num) {
-	cout << "YOU: " << endl;
+void SmartPlayer::printHand(int num) {
+	cout << "PLAYER " << num << ": " << endl;
 	hand[0]->printCard();
 	hand[1]->printCard();
 	cout << endl;	
 }
 
-int User::getActiveBet() {
-	return activeBet;
-}
 
-int User::getMoney() {
+int SmartPlayer::getMoney() {
 	return total;
 }
 

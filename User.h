@@ -7,10 +7,13 @@ public:
 	User(string s);
   	virtual void addCard(Card* a);
   	virtual void emptyHand();
-	virtual void wager(int& center);
+	virtual void call(int highest, int& center);
 	virtual void raise(int bet, int& center);
 	virtual void winsMoney(int winnings);
-	virtual void nextRound();
+	virtual void printHand(int num);
+	virtual int getActiveBet();
+	virtual int getMoney();
+	virtual Hands getBestHand();
 };
 
 #endif

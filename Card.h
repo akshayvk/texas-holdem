@@ -21,12 +21,18 @@ class Card {
   Suit suit;
 
 public:
+	Card() {}
 	Card(Rank r, Suit s) : rank(r), suit(s) {}
 	void printCard();
 	Rank getRank();
+	Suit getSuit();
 
 };
 
-bool compareCards(Card* a, Card* b);
+struct Compare {
+	bool operator()(Card* a, Card* b) {
+		return (a->getRank() > b->getRank());
+	}
+};
 
 #endif

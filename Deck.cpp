@@ -23,6 +23,6 @@ void Deck::reset() {
 	shuffle();
 }
 
-Card Deck::dealNext() {
+Card Deck::dealNext() {	
 	return pack[next++];
 }
