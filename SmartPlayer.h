@@ -5,10 +5,11 @@
 
 class SmartPlayer : public Player {
 	const int CALLMODE = 0;
-	const int RAISEMODE = 1;
+	const int RAISEMODE = 1; 
 	int confidenceScore;
 	void strategyValid(int& curr, int& center, int mode);
 public:
+	int pid;
 	SmartPlayer(string s);
   	virtual void addCard(Card* a);
   	virtual void emptyHand();

@@ -1,6 +1,8 @@
 #include "SmartPlayer.h"
 
-SmartPlayer::SmartPlayer(string s) {
+static int id = 0;
+
+SmartPlayer::SmartPlayer(string s) {	
 	name = s;
 	total = 1000;
 	activeBet = 0;
@@ -8,6 +10,7 @@ SmartPlayer::SmartPlayer(string s) {
 	confidenceScore = 0;
 	typeSuit.reserve(4);
 	typeRank.reserve(13);
+	pid = ++id;
 }
 
 void SmartPlayer::addCard(Card* a) {
@@ -18,8 +21,9 @@ void SmartPlayer::addCard(Card* a) {
 
 void SmartPlayer::emptyHand() {
 	hand.clear();
+	typeSuit.clear();
+	typeRank.clear();
 	activeBet = 0;
-	active = false;
 	confidenceScore = 0;
 }
 
@@ -40,10 +44,10 @@ Hands SmartPlayer::getBestHand() {
 		}
 	}
 	
-	bool found = false;
-	for(unsigned int i = 0; i < hand.size(); ++i) {
+	/*bool found = false;
+	for(unsigned int i = 0; i < hand.size() - 5; ++i) {
 		for(unsigned int j = i + 1; j < i + 5; ++j) {
-			if(hand[i - 1] + 1 == hand[i]) {
+			if((int)(hand[j - 1]->getRank()) + 1 == (int)(hand[j]->getRank())) {
 				found = true;
 			}
 			else {
@@ -54,7 +58,7 @@ Hands SmartPlayer::getBestHand() {
 		if(found) {
 			best = STRAIGHT;
 		}
-	}
+	}*/
 	
 	for(unsigned int i = 0; i < typeSuit.size(); ++i) {
 		if(typeSuit[i] == 5) {
@@ -91,7 +95,7 @@ int SmartPlayer::getActiveBet() {
 }
 
 void SmartPlayer::strategyValid(int& curr, int& center, int mode) {
-	int confidenceScore = (int)(getBestHand());
+	int confidenceScore = (int)(getBestHand()) + 1;
 	if(mode == CALLMODE) {
 		if(activeBet + (confidenceScore * 100) > curr) {
 			int diff = curr - activeBet;
@@ -100,7 +104,7 @@ void SmartPlayer::strategyValid(int& curr, int& center, int mode) {
 			center += diff;
 		}
 		else {
-			cout << "Opponent folds" << endl;
+			cout << "Opponent " << pid << " folds" << endl;
 			emptyHand();
 		}
 	}

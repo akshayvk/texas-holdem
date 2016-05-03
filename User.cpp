@@ -17,8 +17,9 @@ void User::addCard(Card* a) {
 
 void User::emptyHand() {
 	hand.clear();
+	typeSuit.clear();
+	typeRank.clear();
 	activeBet = 0;
-	active = false;
 }
 
 Hands User::getBestHand() {
@@ -38,10 +39,10 @@ Hands User::getBestHand() {
 		}
 	}
 	
-	bool found = false;
-	for(unsigned int i = 0; i < hand.size(); ++i) {
+	/*bool found = false;
+	for(unsigned int i = 0; i < hand.size() - 5; ++i) {
 		for(unsigned int j = i + 1; j < i + 5; ++j) {
-			if(hand[i - 1] + 1 == hand[i]) {
+			if(((int)hand[j - 1]->getRank()) + 1 == (int)(hand[j]->getRank())) {
 				found = true;
 			}
 			else {
@@ -52,7 +53,7 @@ Hands User::getBestHand() {
 		if(found) {
 			best = STRAIGHT;
 		}
-	}
+	}*/
 	
 	for(unsigned int i = 0; i < typeSuit.size(); ++i) {
 		if(typeSuit[i] == 5) {

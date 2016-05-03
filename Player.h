@@ -22,6 +22,9 @@ protected:
   vector<int> typeRank;
   
 public:
+  virtual string getName()  {
+    return name;
+  }
   virtual void addCard(Card* a) = 0;
   virtual void emptyHand() = 0;
   virtual void call(int highest, int& center) = 0;

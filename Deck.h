@@ -16,7 +16,7 @@ public:
 	Deck();
 	void shuffle();
 	void reset();
-	Card dealNext();
+	Card* dealNext();
 };
 
 
